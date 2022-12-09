@@ -1,0 +1,89 @@
+SQL Cheat Sheet, Tips, and Tricks
+Tips and Tricks
+Remember you can get out of pqsl with \q
+Database names should use underscores
+SQL Cheat Sheet
+Meta Commands
+\l List databases
+\c Connect to a database
+\dt Display Tables in a database
+\q Quit out of psql to normal terminal
+Queries
+CREATE DATABASE database_for_all_things
+CREATE TABLE first_things (
+id SERIAL PRIMARY KEY,
+name VARCHAR(50),
+count integer
+);
+
+
+SQL Cheat Sheet
+Meta Commands
+\l List databases
+\c Connect to a database
+\dt Display Tables in a database
+\q Quit out of psql to normal terminal
+Queries
+CREATE INSERT INTO worlds (name) VALUES ('Asgard');
+READ SELECT* FROM herbs;
+UPDATE UPDATE herbs SET sighting_date = '2021-01-10' WHERE id='1';
+DELETE DELETE FROM herbs WHERE id='1';
+Filters
+BETWEENSELECT * FROM trips WHERE start_date BETWEEN '2021-02-01' AND '2021-02-12';
+LIKE SELECT * FROM books WHERE title LIKE '%ship%';
+
+
+CREATE TABLE books (
+    id SERIAL PRIMARY  KEY,
+    title VARCHAR(150),
+    total_pages integer,
+    author VARCHAR(255),
+    type VARCHAR(100),
+    summary text
+);
+
+
+Instructions to install db-migrate
+Install the global package npm install -g db-migrate
+Install the package to the project yarn add db-migrate db-migrate-pg
+Add a database.json reference file in the root of the project. Later, when we are working with multiple databases - this will allow us to specify what database we want to run migrations on. Here is an example database.json, you will just need to change the database names:
+{
+  "dev": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "fantasy_worlds",
+    "user": "magical_user",
+    "password": "password123"
+  },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "fantasy_worlds_test",
+    "user": "test_user",
+    "password": "password123"
+  }
+}
+Create a migration db-migrate create mythical-worlds-table --sql-file
+Add the SQL you need to the up and down sql files
+Bring the migration up db-migrate up
+Bring the migration down db-migrate down
+
+example Model 
+export type Book = {
+     id: number;
+     title: string;
+     author: string;
+     totalPages: number;
+     summary: string;
+}
+CRUD methods
+
+In the video we didn't build out all the CRUD model methods, but here you were tasked with building out all of them. Here is a copy of the entire model file:
+
+// @ts-ignore
+import Client from '../database'
+
+
+
+
+
