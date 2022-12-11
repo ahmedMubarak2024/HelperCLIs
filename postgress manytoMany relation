@@ -128,3 +128,10 @@ Sql Join
 Example join syntax:
 
 SELECT * FROM products INNER JOIN order_products ON product.id = order_products.id;
+Here is a join that would fulfill the requirements of this exercise:
+
+SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id;
+
+How did we get to this solution? We know that the orders table records the id of the user creating the order in the user_id column.
+If a user has ever made an order, their id has been recorded in the orders table as the the user_id of an order. So, this join looks 
+for all user ids that show up in both of those tables to find the users who have made orders.
