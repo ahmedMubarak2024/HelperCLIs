@@ -122,3 +122,9 @@ async addProduct(quantity: number, orderId: string, productId: string): Promise<
     }
   }
 
+
+
+Sql Join 
+Example join syntax:
+
+SELECT * FROM products INNER JOIN order_products ON product.id = order_products.id;
