@@ -135,3 +135,112 @@ SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id;
 How did we get to this solution? We know that the orders table records the id of the user creating the order in the user_id column.
 If a user has ever made an order, their id has been recorded in the orders table as the the user_id of an order. So, this join looks 
 for all user ids that show up in both of those tables to find the users who have made orders.
+
+
+The Dashboard service:
+
+SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id;
+
+
+
+import Client from '../database'
+
+export class DashboardQueries {
+  // Get all users that have made orders
+  async usersWithOrders(): Promise<{firstName: string, lastName: string}[]> {
+    try {
+      //@ts-ignore
+      const conn = await Client.connect()
+      const sql = 'SELECT first_name, last_name FROM users INNER JOIN orders ON users.id = orders.user_id'
+
+      const result = await conn.query(sql)
+
+      conn.release()
+
+      return result.rows
+    } catch (err) {
+      throw new Error(`unable get users with orders: ${err}`)
+    } 
+  }
+
+Dashboard Route Handlers:
+
+import express, { Request, Response } from 'express'
+
+import { DashboardQueries } from '../services/dashboard'
+
+const dashboardRoutes = (app: express.Application) => {
+    app.get('/products-in-orders', productsInOrders)
+    app.get('/users-with-orders', usersWithOrders)
+}
+
+const dashboard = new DashboardQueries()
+
+const usersWithOrders = async (_req: Request, res: Response) => {
+  const users = await dashboard.usersWithOrders()
+  res.json(users)
+}
+
+const productsInOrders = async (_req: Request, res: Response) => {
+  const products = await dashboard.productsInOrders()
+  res.json(products)
+}
+
+export default dashboardRoutes
+
+2. Adding the ORDER By
+
+For this solution I will use the following ORDER BY query to get the 5 most expensive products:
+
+SELECT name, price FROM products ORDER BY price DESC LIMIT 5;
+
+Dashboard Service Method
+
+  // Get all users that have made orders
+  async fiveMostExpensive(): Promise<{name: string, price: number}[]> {
+    try {
+      //@ts-ignore
+      const conn = await Client.connect()
+      const sql = 'SELECT name, price FROM products ORDER BY price DESC LIMIT 5'
+
+      const result = await conn.query(sql)
+
+      conn.release()
+
+      return result.rows
+    } catch (err) {
+      throw new Error(`unable get products by price: ${err}`)
+    } 
+  }
+
+Handler Method
+
+import express, { Request, Response } from 'express'
+
+import { DashboardQueries } from '../services/dashboard'
+
+const dashboardRoutes = (app: express.Application) => {
+    app.get('/five-most-expensive', fiveMostExpensive)
+    app.get('/products-in-orders', productsInOrders)
+    app.get('/users-with-orders', usersWithOrders)
+}
+
+const dashboard = new DashboardQueries()
+
+const fiveMostExpensive = async (_req: Request, res: Response) => {
+  const users = await dashboard.fiveMostExpensive()
+  res.json(users)
+}
+
+const usersWithOrders = async (_req: Request, res: Response) => {
+  const users = await dashboard.usersWithOrders()
+  res.json(users)
+}
+
+const productsInOrders = async (_req: Request, res: Response) => {
+  const products = await dashboard.productsInOrders()
+  res.json(products)
+}
+
+export default dashboardRoutes
+
