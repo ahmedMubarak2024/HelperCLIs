@@ -16,4 +16,11 @@
     Terraform: A programming language that provides infrastructure as code capacities.
 
 
+eb create [env name] to create new enviroment 
+eb deploy [env name] to deploy new code
+eb health to health info
 
+
+aws configure to set the key id and key securt 
+                                                              [folder]     [bucketname] 
+to upload to S3bucket aws s3 cp --recursive --acl public-read ./build s3://udagram-test01/
