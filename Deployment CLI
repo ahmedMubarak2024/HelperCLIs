@@ -15,6 +15,12 @@
     Jenkins: One of the first CI/CD platforms and one of the most popular to this day.
     Terraform: A programming language that provides infrastructure as code capacities.
 
+    IAM keys: Identity access management keys can identify you to the AWS CLI. These keys hold associated permissions to give access to your account.
+    Runbook: A simple step-by-step tutorial explaining how to do operations on an application.
+    Cache-Control: HTTP headers telling the browser how long it needs to cache certain files. To ensure browsers take the new content of our HTML files we will sometimes need to force the browser to revalidate the content of the files in S3
+    ACL: Access Control List is a way to control who can access S3 buckets.
+
+
 
 eb create [env name] to create new enviroment 
 eb deploy [env name] to deploy new code
